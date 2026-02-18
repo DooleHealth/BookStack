@@ -7,13 +7,18 @@ button {
   font-size: 100%;
 }
 
-.button_page {
+.button_page a{
   padding: 20px;
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 20px;
   border: 1px solid lightgray;
   border-radius: 10px;
   color: black;
+  display: block;
+}
+
+.button_page a span {
+  font-size: 30px;
 }
 
 .button  {
