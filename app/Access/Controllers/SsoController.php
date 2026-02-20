@@ -4,6 +4,7 @@ namespace BookStack\Access\Controllers;
 
 use BookStack\Entities\Tools\SlugGenerator;
 use BookStack\Http\Controller;
+use BookStack\Translation\LocaleManager;
 use BookStack\Users\Models\Role;
 use BookStack\Users\Models\User;
 use Firebase\JWT\JWT;
@@ -19,6 +20,7 @@ class SsoController extends Controller
 {
     public function __construct(
         protected SlugGenerator $slugGenerator,
+        protected LocaleManager $localeManager,
     ) {
     }
 
@@ -64,7 +66,14 @@ class SsoController extends Controller
             ]
         );
 
-        setting()->putUser($user, 'language', $payload->language);
+        // Establecer idioma del usuario si viene en el payload y es un locale válido
+        if (!empty($payload->language)) {
+            $validLocales = $this->localeManager->getAllAppLocales();
+            if (in_array($payload->language, $validLocales, true)) {
+                setting()->putUser($user, 'language', $payload->language);
+                app()->setLocale($payload->language);
+            }
+        }
 
         // Generar slug único usando SlugGenerator
         if ($user->wasRecentlyCreated || empty($user->slug)) {
