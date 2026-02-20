@@ -2,7 +2,9 @@
 
 namespace BookStack\Access\Controllers;
 
+use BookStack\Entities\Tools\SlugGenerator;
 use BookStack\Http\Controller;
+use BookStack\Users\Models\Role;
 use BookStack\Users\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -15,6 +17,11 @@ use Illuminate\Support\Str;
 
 class SsoController extends Controller
 {
+    public function __construct(
+        protected SlugGenerator $slugGenerator,
+    ) {
+    }
+
     /**
      * Recibe un JWT desde el backend principal, valida el token,
      * crea o recupera el usuario y lo autentica con sesión.
@@ -57,14 +64,34 @@ class SsoController extends Controller
             ]
         );
 
-        // Asignar rol Viewer (ID 3) si es un usuario nuevo (recién creado)
-        if ($user->wasRecentlyCreated) {
-            $user->roles()->attach(3);
+        setting()->putUser($user, 'language', $payload->language);
+
+        // Generar slug único usando SlugGenerator
+        if ($user->wasRecentlyCreated || empty($user->slug)) {
+            $this->slugGenerator->regenerateForUser($user);
+            $user->save();
         }
 
-        // Actualizar nombre si cambió en el backend principal
+        // Si es un usuario nuevo, le asignamos el rol de Viewer y opcionalmente el rol de Viewer-Admin (para los manuales de Administrador)
+        if ($user->wasRecentlyCreated) {
+            $viewerRole = Role::getRole('Viewer');
+            if ($viewerRole) {
+                $user->roles()->attach($viewerRole->id);
+            }
+
+            if($payload->is_admin ?? false) {
+                $viewerAdminRole = Role::getRole('Viewer-Admin');
+                if ($viewerAdminRole) {
+                    $user->roles()->attach($viewerAdminRole->id);
+                }
+            }
+        }
+
+        // Actualizar nombre y slug si cambió en el backend principal
         if ($user->name !== $payload->name) {
-            $user->update(['name' => $payload->name]);
+            $user->name = $payload->name;
+            $this->slugGenerator->regenerateForUser($user);
+            $user->save();
         }
 
         Auth::login($user);
