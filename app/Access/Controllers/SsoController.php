@@ -52,7 +52,7 @@ class SsoController extends Controller
         $user = User::firstOrCreate(
             ['email' => $payload->email],
             [
-                'name' => $payload->user_name,
+                'name' => $payload->name,
                 'password' => bcrypt(Str::random(32)),
             ]
         );
@@ -63,8 +63,8 @@ class SsoController extends Controller
         }
 
         // Actualizar nombre si cambió en el backend principal
-        if ($user->name !== $payload->user_name) {
-            $user->update(['name' => $payload->user_name]);
+        if ($user->name !== $payload->name) {
+            $user->update(['name' => $payload->name]);
         }
 
         Auth::login($user);
