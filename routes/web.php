@@ -1,5 +1,6 @@
 <?php
 
+use BookStack\Access\Controllers\SsoController;
 use BookStack\Access\Controllers as AccessControllers;
 use BookStack\Activity\Controllers as ActivityControllers;
 use BookStack\Api\ApiDocsController;
@@ -28,6 +29,8 @@ Route::get('/favicon.ico', [MetaController::class, 'favicon']);
 Route::get('/manifest.json', [MetaController::class, 'pwaManifest']);
 Route::get('/licenses', [MetaController::class, 'licenses']);
 Route::get('/opensearch.xml', [MetaController::class, 'opensearch']);
+
+Route::get('login/sso', [SsoController::class, 'login']);
 
 // Authenticated routes...
 Route::middleware('auth')->group(function () {

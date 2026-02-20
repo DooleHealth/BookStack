@@ -145,4 +145,7 @@ return [
     // Proxy configuration
     'proxies' => env('APP_PROXIES', ''),
 
+    // JWT Secret
+    'jwt_secret' => env('JWT_SECRET'),
+
 ];
