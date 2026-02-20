@@ -30,7 +30,7 @@ Route::get('/manifest.json', [MetaController::class, 'pwaManifest']);
 Route::get('/licenses', [MetaController::class, 'licenses']);
 Route::get('/opensearch.xml', [MetaController::class, 'opensearch']);
 
-Route::get('login/sso', [SsoController::class, 'login']);
+Route::get('sso/login', [SsoController::class, 'login']);
 
 // Authenticated routes...
 Route::middleware('auth')->group(function () {
