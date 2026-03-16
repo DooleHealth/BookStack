@@ -140,6 +140,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
+     * Check if the user has a viewer-type role (Viewer, Viewer-Admin, Viewer-MS).
+     */
+    public function isViewerRole(): bool
+    {
+        return $this->roles->whereIn('display_name', ['Viewer', 'Viewer-Admin', 'Viewer-MS'])->isNotEmpty();
+    }
+
+    /**
      * Attach the default system role to this user.
      */
     public function attachDefaultRole(): void

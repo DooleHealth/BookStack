@@ -67,7 +67,10 @@
 @stop
 
 @section('right')
-    @include('books.parts.show-sidebar-section-details', ['book' => $book, 'watchOptions' => $watchOptions])
+    @if(!auth()->check() || !auth()->user()->isViewerRole())
+        @include('books.parts.show-sidebar-section-details', ['book' => $book, 'watchOptions' => $watchOptions])
+    @endif
+
     @include('books.parts.show-sidebar-section-actions', ['book' => $book, 'watchOptions' => $watchOptions])
 @stop
 

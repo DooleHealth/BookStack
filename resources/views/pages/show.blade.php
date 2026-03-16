@@ -43,6 +43,8 @@
 @stop
 
 @section('right')
-    @include('pages.parts.show-sidebar-section-details', ['page' => $page, 'watchOptions' => $watchOptions, 'book' => $book])
+    @if(!auth()->check() || !auth()->user()->isViewerRole())
+        @include('pages.parts.show-sidebar-section-details', ['page' => $page, 'watchOptions' => $watchOptions, 'book' => $book])
+    @endif
     @include('pages.parts.show-sidebar-section-actions', ['page' => $page, 'watchOptions' => $watchOptions])
 @stop
