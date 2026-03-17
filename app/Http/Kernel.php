@@ -52,11 +52,12 @@ class Kernel extends HttpKernel
      * @var array<string, class-string>
      */
     protected $middlewareAliases = [
-        'auth'       => \BookStack\Http\Middleware\Authenticate::class,
-        'can'        => \BookStack\Http\Middleware\CheckUserHasPermission::class,
-        'guest'      => \BookStack\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'guard'      => \BookStack\Http\Middleware\CheckGuard::class,
-        'mfa-setup'  => \BookStack\Http\Middleware\AuthenticatedOrPendingMfa::class,
+        'auth'           => \BookStack\Http\Middleware\Authenticate::class,
+        'can'            => \BookStack\Http\Middleware\CheckUserHasPermission::class,
+        'guest'          => \BookStack\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'       => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'guard'          => \BookStack\Http\Middleware\CheckGuard::class,
+        'mfa-setup'      => \BookStack\Http\Middleware\AuthenticatedOrPendingMfa::class,
+        'restrict-viewer' => \BookStack\Http\Middleware\RestrictViewerRoles::class,
     ];
 }

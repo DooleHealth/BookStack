@@ -70,8 +70,10 @@
 
 @section('left')
     @include('shelves.parts.show-sidebar-section-tags', ['shelf' => $shelf])
-    @include('shelves.parts.show-sidebar-section-details', ['shelf' => $shelf])
-    @include('shelves.parts.show-sidebar-section-activity', ['activity' => $activity])
+    @if(!auth()->check() || !auth()->user()->isViewerRole())
+        @include('shelves.parts.show-sidebar-section-details', ['shelf' => $shelf])
+        @include('shelves.parts.show-sidebar-section-activity', ['activity' => $activity])
+    @endif
 @stop
 
 @section('right')

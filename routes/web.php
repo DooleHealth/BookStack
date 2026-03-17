@@ -33,7 +33,7 @@ Route::get('/opensearch.xml', [MetaController::class, 'opensearch']);
 Route::get('sso/login', [SsoController::class, 'login']);
 
 // Authenticated routes...
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'restrict-viewer'])->group(function () {
 
     // Secure images routing
     Route::get('/uploads/images/{path}', [UploadControllers\ImageController::class, 'showImage'])

@@ -4,14 +4,15 @@
 
     <div class="container medium pt-xl">
 
-        <div class="grid right-focus reverse-collapse">
-
-            <div>
-                <section id="recent-user-activity" class="mb-xl">
-                    <h5>{{ trans('entities.recent_activity') }}</h5>
-                    @include('common.activity-list', ['activity' => $activity])
-                </section>
-            </div>
+        <div class="grid @if(!auth()->check() || !auth()->user()->isViewerRole()) right-focus @endif reverse-collapse">
+            @if(!auth()->check() || !auth()->user()->isViewerRole())
+                <div>
+                    <section id="recent-user-activity" class="mb-xl">
+                        <h5>{{ trans('entities.recent_activity') }}</h5>
+                        @include('common.activity-list', ['activity' => $activity])
+                    </section>
+                </div>
+            @endif
 
             <div>
                 <section class="card content-wrap auto-height">
