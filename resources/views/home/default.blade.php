@@ -51,6 +51,7 @@
                     </div>
                 @endif
 
+                @if(!auth()->check() || !auth()->user()->isViewerRole())
                 <div id="recent-pages" class="card mb-xl">
                     <h3 class="card-title">{{ trans('entities.recently_updated_pages') }}</h3>
                     <div id="recently-updated-pages" class="px-m">
@@ -64,6 +65,7 @@
                         <a href="{{ url("/pages/recently-updated") }}" class="card-footer-link">{{ trans('common.view_all') }}</a>
                     @endif
                 </div>
+                @endif
             </div>
 
             @if(!auth()->check() || !auth()->user()->isViewerRole())

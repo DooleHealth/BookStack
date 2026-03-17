@@ -34,9 +34,6 @@ class RestrictViewerRoles
         // View pages
         '#^/books/[^/]+/page/[^/]+$#',
 
-        // Recently updated pages
-        '#^/pages/recently-updated$#',
-
         // Favourites
         '#^/favourites$#',
         '#^/favourites/add$#',
