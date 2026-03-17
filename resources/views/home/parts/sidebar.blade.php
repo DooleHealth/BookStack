@@ -25,6 +25,7 @@
         ])
 </div>
 
+@if(!auth()->check() || !auth()->user()->isViewerRole())
 <div class="mb-xl">
     <h5>{{ trans('entities.recently_updated_pages') }}</h5>
     <div id="recently-updated-pages">
@@ -36,6 +37,7 @@
     </div>
     <a href="{{ url('/pages/recently-updated')  }}" class="text-muted block py-xs">{{ trans('common.view_all') }}</a>
 </div>
+@endif
 
 @if(!auth()->check() || !auth()->user()->isViewerRole())
 <div id="recent-activity" class="mb-xl">
