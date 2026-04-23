@@ -54,9 +54,10 @@ ul.contents ul li {
 .chapter-hint {
   color: #888;
   margin-top: 32px;
+  margin-bottom: 4px;
 }
 .chapter-hint + h1 {
-  margin-top: 0;
+  margin-top: 0.1em;
 }
 
 // PDF specific overrides

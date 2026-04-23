@@ -72,7 +72,7 @@ class PdfGenerator
     protected function renderUsingCommand(string $html): string
     {
         $command = config('exports.pdf_command');
-        $inputHtml = tempnam(sys_get_temp_dir(), 'bs-pdfgen-html-');
+        $inputHtml = tempnam(sys_get_temp_dir(), 'bs-pdfgen-html-') . '.html';
         $outputPdf = tempnam(sys_get_temp_dir(), 'bs-pdfgen-output-');
 
         $replacementsByPlaceholder = [
