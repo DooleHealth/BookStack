@@ -83,6 +83,7 @@ Route::middleware(['auth', 'restrict-viewer'])->group(function () {
     Route::get('/books/{slug}/references', [ReferenceController::class, 'book']);
     Route::get('/books/{bookSlug}/export/html', [ExportControllers\BookExportController::class, 'html']);
     Route::get('/books/{bookSlug}/export/pdf', [ExportControllers\BookExportController::class, 'pdf']);
+    Route::get('/books/{bookSlug}/export/pdf-email', [ExportControllers\BookExportController::class, 'pdfEmail']);
     Route::get('/books/{bookSlug}/export/markdown', [ExportControllers\BookExportController::class, 'markdown']);
     Route::get('/books/{bookSlug}/export/zip', [ExportControllers\BookExportController::class, 'zip']);
     Route::get('/books/{bookSlug}/export/plaintext', [ExportControllers\BookExportController::class, 'plainText']);

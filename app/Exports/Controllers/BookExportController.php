@@ -5,6 +5,7 @@ namespace BookStack\Exports\Controllers;
 use BookStack\Entities\Queries\BookQueries;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exports\ExportFormatter;
+use BookStack\Exports\Jobs\GenerateBookPdfJob;
 use BookStack\Exports\ZipExports\ZipExportBuilder;
 use BookStack\Http\Controller;
 use BookStack\Permissions\Permission;
@@ -78,5 +79,20 @@ class BookExportController extends Controller
         $zip = $builder->buildForBook($book);
 
         return $this->download()->streamedFileDirectly($zip, $bookSlug . '.zip', true);
+    }
+
+    /**
+     * Queue a book PDF export to be sent via email.
+     */
+    public function pdfEmail(string $bookSlug)
+    {
+        $book = $this->queries->findVisibleBySlugOrFail($bookSlug);
+        $user = user();
+
+        GenerateBookPdfJob::dispatch($book, $user);
+
+        $this->showSuccessNotification('The PDF export for "' . $book->name . '" is being generated. You will receive it by email shortly.');
+
+        return redirect($book->getUrl());
     }
 }
