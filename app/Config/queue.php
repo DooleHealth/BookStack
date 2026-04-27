@@ -39,6 +39,17 @@ return [
             'after_commit' => false,
         ],
 
+       'sqs-fifo' => [
+            'driver' => 'sqs-fifo',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'prefix' => env('SQS_PREFIX'),
+            'queue' => env('SQS_QUEUE'),
+            'region' => env('AWS_SQS_REGION'),
+            'group' => 'default',
+            'deduplicator' => 'unique',
+        ],
+
     ],
 
     // Job batching
