@@ -8,6 +8,7 @@ use BookStack\Entities\Models\Page;
 use BookStack\Entities\Tools\BookContents;
 use BookStack\Entities\Tools\Markdown\HtmlToMarkdown;
 use BookStack\Entities\Tools\PageContent;
+use BookStack\Uploads\ImageResizer;
 use BookStack\Uploads\ImageService;
 use BookStack\Util\CspService;
 use BookStack\Util\HtmlDocument;
@@ -19,6 +20,7 @@ class ExportFormatter
 {
     public function __construct(
         protected ImageService $imageService,
+        protected ImageResizer $imageResizer,
         protected PdfGenerator $pdfGenerator,
         protected CspService $cspService
     ) {
@@ -151,7 +153,7 @@ class ExportFormatter
      */
     protected function htmlToPdf(string $html): string
     {
-        $html = $this->containHtml($html);
+        $html = $this->containHtml($html, true);
         $doc = new HtmlDocument();
         $doc->loadCompleteHtml($html);
 
@@ -202,7 +204,7 @@ class ExportFormatter
      *
      * @throws Exception
      */
-    protected function containHtml(string $htmlContent): string
+    protected function containHtml(string $htmlContent, bool $compressImages = false): string
     {
         $imageTagsOutput = [];
         preg_match_all("/\<img.*?src\=(\'|\")(.*?)(\'|\").*?\>/i", $htmlContent, $imageTagsOutput);
@@ -215,6 +217,8 @@ class ExportFormatter
                 $imageEncoded = $this->imageService->imageUrlToBase64($srcString);
                 if ($imageEncoded === null) {
                     $imageEncoded = $srcString;
+                } elseif ($compressImages) {
+                    $imageEncoded = $this->compressBase64ImageForPdf($imageEncoded);
                 }
                 $newImgTagString = str_replace($srcString, $imageEncoded, $oldImgTagString);
                 $htmlContent = str_replace($oldImgTagString, $newImgTagString, $htmlContent);
@@ -238,6 +242,37 @@ class ExportFormatter
         }
 
         return $htmlContent;
+    }
+
+    /**
+     * Compress a base64-encoded image data URI for PDF export.
+     * Resizes images to a max width of 1200px to reduce PDF size.
+     */
+    protected function compressBase64ImageForPdf(string $dataUri): string
+    {
+        if (!preg_match('/^data:image\/([^;]+);base64,(.+)$/s', $dataUri, $matches)) {
+            return $dataUri;
+        }
+
+        $extension = $matches[1];
+        $imageData = base64_decode($matches[2]);
+
+        // Skip SVGs and GIFs (may be animated)
+        if (str_contains($extension, 'svg') || $extension === 'gif') {
+            return $dataUri;
+        }
+
+        if ($imageData === false) {
+            return $dataUri;
+        }
+
+        try {
+            $format = ($extension === 'svg+xml') ? null : $extension;
+            $compressed = $this->imageResizer->resizeImageData($imageData, 1200, null, true, $format);
+            return 'data:image/' . $extension . ';base64,' . base64_encode($compressed);
+        } catch (Exception $e) {
+            return $dataUri;
+        }
     }
 
     /**
