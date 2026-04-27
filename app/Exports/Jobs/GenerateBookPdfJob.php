@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class GenerateBookPdfJob implements ShouldQueue
@@ -31,6 +32,10 @@ class GenerateBookPdfJob implements ShouldQueue
 
     public function handle(ExportFormatter $exportFormatter): void
     {
+        // Authenticate as the user who requested the export
+        // so permission checks in BookContents::getTree work correctly.
+        Auth::login($this->user);
+
         $pdfContent = $exportFormatter->bookToPdf($this->book);
 
         $fileName = $this->book->slug . '.pdf';

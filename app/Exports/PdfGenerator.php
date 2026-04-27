@@ -72,12 +72,8 @@ class PdfGenerator
     protected function renderUsingCommand(string $html): string
     {
         $command = config('exports.pdf_command');
-        $tempDir = storage_path('app');
-        if (!is_dir($tempDir)) {
-            mkdir($tempDir, 0755, true);
-        }
-        $inputHtml = tempnam($tempDir, 'bs-pdfgen-html-') . '.html';
-        $outputPdf = tempnam($tempDir, 'bs-pdfgen-output-');
+        $inputHtml = tempnam(sys_get_temp_dir(), 'bs-pdfgen-html-') . '.html';
+        $outputPdf = tempnam(sys_get_temp_dir(), 'bs-pdfgen-output-');
 
         $replacementsByPlaceholder = [
             '{input_html_path}' => $inputHtml,
