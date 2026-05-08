@@ -86,13 +86,19 @@ class BookExportController extends Controller
      */
     public function pdfEmail(string $bookSlug)
     {
-        $book = $this->queries->findVisibleBySlugOrFail($bookSlug);
-        $user = user();
+        try {
+            $book = $this->queries->findVisibleBySlugOrFail($bookSlug);
+            $user = user();
 
-        GenerateBookPdfJob::dispatch($book, $user);
+            GenerateBookPdfJob::dispatch($book, $user, app()->getLocale());
 
-        $this->showSuccessNotification('The PDF export for "' . $book->name . '" is being generated. You will receive it by email shortly.');
+            $this->showSuccessNotification(trans('entities.export_pdf_generating', ['name' => $book->name]));
 
-        return redirect($book->getUrl());
+            return redirect($book->getUrl());
+        } catch (\Throwable $th) {
+            $this->showErrorNotification(trans('entities.export_pdf_failed', ['message' => $th->getMessage()]));
+
+            return redirect()->back();
+        }
     }
 }

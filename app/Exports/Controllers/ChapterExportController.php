@@ -5,6 +5,7 @@ namespace BookStack\Exports\Controllers;
 use BookStack\Entities\Queries\ChapterQueries;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exports\ExportFormatter;
+use BookStack\Exports\Jobs\GenerateChapterPdfJob;
 use BookStack\Exports\ZipExports\ZipExportBuilder;
 use BookStack\Http\Controller;
 use BookStack\Permissions\Permission;
@@ -84,5 +85,26 @@ class ChapterExportController extends Controller
         $zip = $builder->buildForChapter($chapter);
 
         return $this->download()->streamedFileDirectly($zip, $chapterSlug . '.zip', true);
+    }
+
+    /**
+     * Queue a chapter PDF export to be sent via email.
+     */
+    public function pdfEmail(string $bookSlug, string $chapterSlug)
+    {
+        try {
+            $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+            $user = user();
+
+            GenerateChapterPdfJob::dispatch($chapter, $user, app()->getLocale());
+
+            $this->showSuccessNotification(trans('entities.export_pdf_generating', ['name' => $chapter->name]));
+
+            return redirect($chapter->getUrl());
+        } catch (\Throwable $th) {
+            $this->showErrorNotification(trans('entities.export_pdf_failed', ['message' => $th->getMessage()]));
+
+            return redirect()->back();
+        }
     }
 }

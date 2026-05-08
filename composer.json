@@ -34,6 +34,8 @@
         "phpseclib/phpseclib": "^3.0",
         "pragmarx/google2fa": "^9.0",
         "predis/predis": "^3.2",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.6",
         "shiftonelabs/laravel-sqs-fifo-queue": "^3.0",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/gitlab": "^4.1",

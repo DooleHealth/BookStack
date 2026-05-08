@@ -95,6 +95,7 @@ Route::middleware(['auth', 'restrict-viewer'])->group(function () {
     Route::post('/books/{bookSlug}/draft/{pageId}', [EntityControllers\PageController::class, 'store']);
     Route::get('/books/{bookSlug}/page/{pageSlug}', [EntityControllers\PageController::class, 'show']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/pdf', [ExportControllers\PageExportController::class, 'pdf']);
+    Route::get('/books/{bookSlug}/page/{pageSlug}/export/pdf-email', [ExportControllers\PageExportController::class, 'pdfEmail']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/html', [ExportControllers\PageExportController::class, 'html']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/markdown', [ExportControllers\PageExportController::class, 'markdown']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/export/plaintext', [ExportControllers\PageExportController::class, 'plainText']);
@@ -136,6 +137,7 @@ Route::middleware(['auth', 'restrict-viewer'])->group(function () {
     Route::post('/books/{bookSlug}/chapter/{chapterSlug}/convert-to-book', [EntityControllers\ChapterController::class, 'convertToBook']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/permissions', [PermissionsController::class, 'showForChapter']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/pdf', [ExportControllers\ChapterExportController::class, 'pdf']);
+    Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/pdf-email', [ExportControllers\ChapterExportController::class, 'pdfEmail']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/html', [ExportControllers\ChapterExportController::class, 'html']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/markdown', [ExportControllers\ChapterExportController::class, 'markdown']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/plaintext', [ExportControllers\ChapterExportController::class, 'plainText']);

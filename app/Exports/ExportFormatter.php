@@ -14,6 +14,7 @@ use BookStack\Util\CspService;
 use BookStack\Util\HtmlDocument;
 use DOMElement;
 use Exception;
+use setasign\Fpdi\Fpdi;
 use Throwable;
 
 class ExportFormatter
@@ -128,22 +129,79 @@ class ExportFormatter
     }
 
     /**
-     * Convert a book to a PDF file.
+     * Convert a book to a PDF file using chunked generation.
+     * Each chapter/page is rendered as a separate PDF and then merged.
      *
      * @throws Throwable
      */
     public function bookToPdf(Book $book): string
     {
         $bookTree = (new BookContents($book))->getTree(false, true);
-        $html = view('exports.book', [
+
+        // Generate cover/TOC page
+        $coverHtml = view('exports.book', [
             'book'         => $book,
-            'bookChildren' => $bookTree,
+            'bookChildren' => collect(),
             'format'       => 'pdf',
             'engine'       => $this->pdfGenerator->getActiveEngine(),
             'locale'       => user()->getLocale(),
         ])->render();
 
-        return $this->htmlToPdf($html);
+        $tempFiles = [];
+
+        try {
+            // Generate cover PDF
+            $coverPdf = $this->htmlToPdf($coverHtml);
+            $coverFile = tempnam(sys_get_temp_dir(), 'bs-pdf-cover-');
+            file_put_contents($coverFile, $coverPdf);
+            $tempFiles[] = $coverFile;
+            unset($coverPdf, $coverHtml);
+
+            // Generate a PDF for each book child (chapter or page)
+            foreach ($bookTree as $bookChild) {
+                if ($bookChild->isA('chapter')) {
+                    $chunkPdf = $this->chapterToPdf($bookChild);
+                } else {
+                    $bookChild->html = (new PageContent($bookChild))->render();
+                    $chunkPdf = $this->pageToPdf($bookChild);
+                }
+
+                $chunkFile = tempnam(sys_get_temp_dir(), 'bs-pdf-chunk-');
+                file_put_contents($chunkFile, $chunkPdf);
+                $tempFiles[] = $chunkFile;
+                unset($chunkPdf);
+            }
+
+            // Merge all PDFs
+            return $this->mergePdfFiles($tempFiles);
+        } finally {
+            // Clean up temp files
+            foreach ($tempFiles as $file) {
+                if (file_exists($file)) {
+                    @unlink($file);
+                }
+            }
+        }
+    }
+
+    /**
+     * Merge multiple PDF files into a single PDF.
+     */
+    protected function mergePdfFiles(array $filePaths): string
+    {
+        $pdf = new Fpdi();
+
+        foreach ($filePaths as $filePath) {
+            $pageCount = $pdf->setSourceFile($filePath);
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $templateId = $pdf->importPage($i);
+                $size = $pdf->getTemplateSize($templateId);
+                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
+                $pdf->useTemplate($templateId);
+            }
+        }
+
+        return $pdf->Output('S');
     }
 
     /**
