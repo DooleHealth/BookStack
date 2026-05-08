@@ -2,7 +2,7 @@
 
 namespace BookStack\Exports\Jobs;
 
-use BookStack\Entities\Models\Book;
+use BookStack\Entities\Models\Page;
 use BookStack\Exports\ExportFormatter;
 use BookStack\Exports\Notifications\PdfExportReadyNotification;
 use BookStack\Users\Models\User;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class GenerateBookPdfJob implements ShouldQueue
+class GeneratePagePdfJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -27,7 +27,7 @@ class GenerateBookPdfJob implements ShouldQueue
     public bool $failOnTimeout = false;
 
     public function __construct(
-        protected Book $book,
+        protected Page $page,
         protected User $user,
         protected string $locale = 'en',
     ) {
@@ -40,10 +40,9 @@ class GenerateBookPdfJob implements ShouldQueue
 
     public function handle(ExportFormatter $exportFormatter): void
     {
-        $lockKey = 'pdf_export_book_' . $this->book->id . '_' . $this->user->id;
+        $lockKey = 'pdf_export_page_' . $this->page->id . '_' . $this->user->id;
         $doneKey = $lockKey . '_done';
 
-        // If already completed by a previous attempt, skip
         if (Cache::has($doneKey)) {
             return;
         }
@@ -53,7 +52,6 @@ class GenerateBookPdfJob implements ShouldQueue
         }
 
         try {
-            // Double-check after acquiring lock
             if (Cache::has($doneKey)) {
                 return;
             }
@@ -63,18 +61,17 @@ class GenerateBookPdfJob implements ShouldQueue
             Auth::login($this->user);
             app()->setLocale($this->locale);
 
-            $pdfContent = $exportFormatter->bookToPdf($this->book);
-            $fileName = $this->book->slug . '.pdf';
+            $pdfContent = $exportFormatter->pageToPdf($this->page);
+            $fileName = $this->page->slug . '.pdf';
 
             $downloadUrl = $this->uploadAndGetUrl($pdfContent, $fileName);
 
             $this->user->notifyNow(new PdfExportReadyNotification(
-                $this->book->name,
+                $this->page->name,
                 $downloadUrl,
                 $fileName,
             ));
 
-            // Mark as completed so retries are skipped
             Cache::put($doneKey, true, 1800);
         } finally {
             Cache::lock($lockKey)->forceRelease();
@@ -92,6 +89,6 @@ class GenerateBookPdfJob implements ShouldQueue
 
     public function failed(?\Throwable $exception): void
     {
-        Log::error("PDF export job failed for book [{$this->book->id}]: " . $exception?->getMessage());
+        Log::error("PDF export job failed for page [{$this->page->id}]: " . $exception?->getMessage());
     }
 }
