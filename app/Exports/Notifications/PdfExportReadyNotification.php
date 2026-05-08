@@ -2,29 +2,37 @@
 
 namespace BookStack\Exports\Notifications;
 
-use BookStack\App\MailNotification;
 use BookStack\Users\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class PdfExportReadyNotification extends MailNotification
+class PdfExportReadyNotification extends Notification
 {
     public function __construct(
-        protected string $bookName,
-        protected string $filePath,
+        protected string $entityName,
+        protected string $downloadUrl,
         protected string $fileName,
     ) {
     }
 
+    public function via($notifiable): array
+    {
+        return ['mail'];
+    }
+
     public function toMail(User $notifiable): MailMessage
     {
-        return $this->newMailMessage($notifiable->getLocale())
-            ->subject('PDF Export Ready: ' . $this->bookName)
-            ->greeting('Your PDF export is ready!')
-            ->line("The PDF export for \"{$this->bookName}\" has been generated successfully.")
-            ->line('Please find the PDF attached to this email.')
-            ->attach($this->filePath, [
-                'as' => $this->fileName,
-                'mime' => 'application/pdf',
-            ]);
+        $locale = $notifiable->getLocale();
+
+        return (new MailMessage())
+            ->view([
+                'html' => 'vendor.notifications.email',
+                'text' => 'vendor.notifications.email-plain',
+            ], ['locale' => $locale])
+            ->subject(trans('entities.export_pdf_email_subject', ['name' => $this->entityName]))
+            ->greeting(trans('entities.export_pdf_email_greeting'))
+            ->line(trans('entities.export_pdf_email_text', ['name' => $this->entityName]))
+            ->action(trans('entities.export_pdf_email_action'), $this->downloadUrl)
+            ->line(trans('entities.export_pdf_email_expiry'));
     }
 }

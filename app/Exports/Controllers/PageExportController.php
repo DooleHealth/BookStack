@@ -6,6 +6,8 @@ use BookStack\Entities\Queries\PageQueries;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exports\ExportFormatter;
+use BookStack\Exports\Jobs\GenerateBookPdfJob;
+use BookStack\Exports\Jobs\GeneratePagePdfJob;
 use BookStack\Exports\ZipExports\ZipExportBuilder;
 use BookStack\Http\Controller;
 use BookStack\Permissions\Permission;
@@ -88,5 +90,26 @@ class PageExportController extends Controller
         $zip = $builder->buildForPage($page);
 
         return $this->download()->streamedFileDirectly($zip, $pageSlug . '.zip', true);
+    }
+
+     /**
+     * Queue a page PDF export to be sent via email.
+     */
+    public function pdfEmail(string $bookSlug, string $pageSlug)
+    {
+        try {
+            $page = $this->queries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
+            $user = user();
+
+            GeneratePagePdfJob::dispatch($page, $user, app()->getLocale());
+
+            $this->showSuccessNotification(trans('entities.export_pdf_generating', ['name' => $page->name]));
+
+            return redirect($page->getUrl());
+        } catch (\Throwable $th) {
+            $this->showErrorNotification(trans('entities.export_pdf_failed', ['message' => $th->getMessage()]));
+
+            return redirect()->back();
+        }
     }
 }
