@@ -58,8 +58,6 @@ class GenerateBookPdfJob implements ShouldQueue
                 return;
             }
 
-            ini_set('memory_limit', '512M');
-
             Auth::login($this->user);
             app()->setLocale($this->locale);
 

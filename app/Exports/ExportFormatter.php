@@ -170,6 +170,7 @@ class ExportFormatter
                 file_put_contents($chunkFile, $chunkPdf);
                 $tempFiles[] = $chunkFile;
                 unset($chunkPdf);
+                gc_collect_cycles();
             }
 
             // Merge all PDFs
