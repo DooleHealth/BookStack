@@ -4,7 +4,7 @@
      */
 @endphp
 <a href="{{ $book->getUrl() }}" class="book entity-list-item" data-entity-type="book" data-entity-id="{{$book->id}}">
-    <div class="entity-list-item-image bg-book" style="background-image: url('{{ $book->coverInfo()->getUrl() }}')">
+    <div class="entity-list-item-image {{ $book->coverInfo()->exists() ? 'bg-white' : 'bg-book' }}" @if($book->coverInfo()->exists()) style="background-image: url('{{ $book->coverInfo()->getUrl() }}')" @endif>
         @icon('book')
     </div>
     <div class="content">
