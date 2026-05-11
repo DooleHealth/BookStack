@@ -81,7 +81,7 @@ class GenerateBookPdfJob implements ShouldQueue
 
     protected function uploadAndGetUrl(string $pdfContent, string $fileName): string
     {
-        $path = 'exports/' . $this->user->id . '/' . time() . '_' . $fileName;
+        $path = 'exports/docs/' . now()->format('Y-m-d') . '/' . time() . '_' . $fileName;
         $disk = Storage::disk('exports');
         $disk->put($path, $pdfContent);
 
