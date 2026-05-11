@@ -72,8 +72,17 @@ class PdfGenerator
     protected function renderUsingCommand(string $html): string
     {
         $command = config('exports.pdf_command');
-        $inputHtml = tempnam(sys_get_temp_dir(), 'bs-pdfgen-html-') . '.html';
-        $outputPdf = tempnam(sys_get_temp_dir(), 'bs-pdfgen-output-');
+
+        // Use storage path instead of sys_get_temp_dir() so that snap-confined
+        // browsers (e.g. snap chromium) can access the files, since /tmp is
+        // private to each snap and inaccessible from the host /tmp.
+        $tempDir = storage_path('app/pdf-tmp');
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir, 0755, true);
+        }
+
+        $inputHtml = tempnam($tempDir, 'bs-pdfgen-html-') . '.html';
+        $outputPdf = tempnam($tempDir, 'bs-pdfgen-output-');
 
         $replacementsByPlaceholder = [
             '{input_html_path}' => $inputHtml,
