@@ -149,10 +149,16 @@ class ExportFormatter
 
         $tempFiles = [];
 
+        // Use storage path instead of sys_get_temp_dir() so snap chromium can access files
+        $tempDir = storage_path('app/pdf-tmp');
+        if (!is_dir($tempDir)) {
+            mkdir($tempDir, 0755, true);
+        }
+
         try {
             // Generate cover PDF
             $coverPdf = $this->htmlToPdf($coverHtml);
-            $coverFile = tempnam(sys_get_temp_dir(), 'bs-pdf-cover-');
+            $coverFile = tempnam($tempDir, 'bs-pdf-cover-');
             file_put_contents($coverFile, $coverPdf);
             $tempFiles[] = $coverFile;
             unset($coverPdf, $coverHtml);
@@ -166,7 +172,7 @@ class ExportFormatter
                     $chunkPdf = $this->pageToPdf($bookChild);
                 }
 
-                $chunkFile = tempnam(sys_get_temp_dir(), 'bs-pdf-chunk-');
+                $chunkFile = tempnam($tempDir, 'bs-pdf-chunk-');
                 file_put_contents($chunkFile, $chunkPdf);
                 $tempFiles[] = $chunkFile;
                 unset($chunkPdf);
