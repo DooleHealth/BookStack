@@ -88,7 +88,6 @@ class BookExportController extends Controller
     public function pdfEmail(string $bookSlug)
     {
         try {
-            dd('a');
             $book = $this->queries->findVisibleBySlugOrFail($bookSlug);
             $user = user();
 
