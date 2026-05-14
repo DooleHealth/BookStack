@@ -37,6 +37,7 @@ return [
     'export' => 'Exportovat',
     'export_html' => 'HTML stránka s celým obsahem',
     'export_pdf' => 'PDF dokument',
+    'export_pdf_file' => 'Exportovat soubor PDF',
     'export_text' => 'Textový soubor',
     'export_md' => 'Markdown',
     'export_zip' => 'Přenosný archiv ZIP',

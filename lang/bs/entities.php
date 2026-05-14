@@ -37,6 +37,7 @@ return [
     'export' => 'Izvezi',
     'export_html' => 'Sadržani web fajl',
     'export_pdf' => 'PDF fajl',
+    'export_pdf_file' => 'Izvezi PDF fajl',
     'export_text' => 'Plain Text fajl',
     'export_md' => 'Markdown File',
     'export_zip' => 'Portable ZIP',

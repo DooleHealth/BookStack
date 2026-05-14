@@ -37,6 +37,7 @@ return [
     'export' => 'Ekspor',
     'export_html' => 'File Web Berisi',
     'export_pdf' => 'Dokumen PDF',
+    'export_pdf_file' => 'Ekspor dokumen PDF',
     'export_text' => 'Dokumen Teks Biasa',
     'export_md' => 'File Markdown',
     'export_zip' => 'Portable ZIP',

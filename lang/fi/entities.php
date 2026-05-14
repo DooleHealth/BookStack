@@ -37,6 +37,7 @@ return [
     'export' => 'Vie',
     'export_html' => 'HTML-tiedosto',
     'export_pdf' => 'PDF-tiedosto',
+    'export_pdf_file' => 'Vie PDF-tiedosto',
     'export_text' => 'Tekstitiedosto',
     'export_md' => 'Markdown-tiedosto',
     'export_zip' => 'Portable ZIP',

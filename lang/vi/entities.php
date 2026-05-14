@@ -37,6 +37,7 @@ return [
     'export' => 'Xuất',
     'export_html' => 'Đang chứa tệp tin Web',
     'export_pdf' => 'Tệp PDF',
+    'export_pdf_file' => 'Xuất tệp PDF',
     'export_text' => 'Tệp văn bản thuần túy',
     'export_md' => 'Tệp Markdown',
     'export_zip' => 'ZIP di động',

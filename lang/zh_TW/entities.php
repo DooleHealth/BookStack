@@ -37,6 +37,7 @@ return [
     'export' => '匯出',
     'export_html' => '網頁檔案',
     'export_pdf' => 'PDF 檔案',
+    'export_pdf_file' => '匯出PDF檔案',
     'export_text' => '純文字檔案',
     'export_md' => 'Markdown 檔案',
     'export_zip' => '可攜式 ZIP',

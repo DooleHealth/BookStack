@@ -37,6 +37,7 @@ return [
     'export' => 'Exportálás',
     'export_html' => 'Önálló weblap',
     'export_pdf' => 'PDF fájl',
+    'export_pdf_file' => 'PDF fájl exportálása',
     'export_text' => 'Egyszerű szövegfájl',
     'export_md' => 'Markdown jegyzetek',
     'export_zip' => 'Hordozható ZIP',

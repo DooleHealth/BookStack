@@ -37,6 +37,7 @@ return [
     'export' => 'Eksporter',
     'export_html' => 'Nettside med alt',
     'export_pdf' => 'PDF-fil',
+    'export_pdf_file' => 'Eksporter PDF-fil',
     'export_text' => 'Tekstfil',
     'export_md' => 'Markdownfil',
     'export_zip' => 'Portable ZIP',

@@ -37,6 +37,7 @@ return [
     'export' => 'Εξαγωγή',
     'export_html' => 'Αρχείο Web',
     'export_pdf' => 'Αρχείο PDF',
+    'export_pdf_file' => 'Εξαγωγή αρχείου PDF',
     'export_text' => 'Αρχείο Απλού κειμένου',
     'export_md' => 'Αρχείο Markdown',
     'export_zip' => 'Portable ZIP',

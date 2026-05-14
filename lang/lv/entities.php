@@ -37,6 +37,7 @@ return [
     'export' => 'Eksportēt',
     'export_html' => 'Pilna satura web fails',
     'export_pdf' => 'PDF fails',
+    'export_pdf_file' => 'Eksportēt PDF failu',
     'export_text' => 'Vienkāršs teksta fails',
     'export_md' => 'Markdown fails',
     'export_zip' => 'Pārceļams ZIP arhīvs',

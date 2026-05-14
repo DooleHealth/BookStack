@@ -37,6 +37,7 @@ return [
     'export' => 'Ekspordi',
     'export_html' => 'HTML-fail',
     'export_pdf' => 'PDF fail',
+    'export_pdf_file' => 'Ekspordi PDF-fail',
     'export_text' => 'Tekstifail',
     'export_md' => 'Markdown fail',
     'export_zip' => 'Portatiivne ZIP',

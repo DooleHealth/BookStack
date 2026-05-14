@@ -37,6 +37,7 @@ return [
     'export' => 'Извоз',
     'export_html' => 'Садржана веб датотека',
     'export_pdf' => 'PDF датотека',
+    'export_pdf_file' => 'Извези PDF датотеку',
     'export_text' => 'Датотеке чистог текста',
     'export_md' => 'Markdown File',
     'export_zip' => 'Portable ZIP',

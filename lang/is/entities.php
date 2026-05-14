@@ -37,6 +37,7 @@ return [
     'export' => 'Flytja út',
     'export_html' => 'Innifalin vefskrá',
     'export_pdf' => 'PDF skrá',
+    'export_pdf_file' => 'Flytja út PDF skrá',
     'export_text' => 'Venjuleg textaskrá',
     'export_md' => 'Markdown skrá',
     'export_zip' => 'ZIP skrá',

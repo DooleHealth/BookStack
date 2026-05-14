@@ -37,6 +37,7 @@ return [
     'export' => 'Експорт',
     'export_html' => 'Вбудований веб-файл',
     'export_pdf' => 'PDF файл',
+    'export_pdf_file' => 'Експортувати файл PDF',
     'export_text' => 'Текстовий файл',
     'export_md' => 'Файл розмітки',
     'export_zip' => 'Портативний ZIP',

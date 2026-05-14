@@ -37,6 +37,7 @@ return [
     'export' => 'Esportatu',
     'export_html' => 'Daukan web artxiboa',
     'export_pdf' => 'PDF fitxategia',
+    'export_pdf_file' => 'PDF fitxategia esportatu',
     'export_text' => 'Testu lauko fitxategiak',
     'export_md' => 'Markdown fitxategia',
     'export_zip' => 'Portable ZIP',

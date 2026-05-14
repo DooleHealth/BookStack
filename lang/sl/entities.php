@@ -37,6 +37,7 @@ return [
     'export' => 'Izvozi',
     'export_html' => 'Vsebuje spletno datoteko',
     'export_pdf' => 'PDF datoteka (.pdf)',
+    'export_pdf_file' => 'Izvozi PDF datoteko',
     'export_text' => 'Navadna besedilna datoteka',
     'export_md' => 'Markdown File',
     'export_zip' => 'Portable ZIP',

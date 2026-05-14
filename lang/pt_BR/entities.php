@@ -37,6 +37,7 @@ return [
     'export' => 'Exportar',
     'export_html' => 'Arquivo Web Contido',
     'export_pdf' => 'Arquivo PDF',
+    'export_pdf_file' => 'Exportar arquivo PDF',
     'export_text' => 'Arquivo de texto simples',
     'export_md' => 'Arquivo de redução',
     'export_zip' => 'ZIP portátil',

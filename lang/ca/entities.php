@@ -37,6 +37,7 @@ return [
     'export' => 'Exporta',
     'export_html' => 'Fitxer web independent',
     'export_pdf' => 'Fitxer PDF',
+    'export_pdf_file' => 'Exporta el fitxer PDF',
     'export_text' => 'Fitxer de text sense format',
     'export_md' => 'Fitxer Markdown',
     'export_zip' => 'ZIP portable',

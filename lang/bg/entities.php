@@ -37,6 +37,7 @@ return [
     'export' => 'Експортиране',
     'export_html' => 'Прикачени уеб файлове',
     'export_pdf' => 'PDF файл',
+    'export_pdf_file' => 'Експортиране на PDF файл',
     'export_text' => 'Обикновен текстов файл',
     'export_md' => 'Markdown файл',
     'export_zip' => 'Portable ZIP',

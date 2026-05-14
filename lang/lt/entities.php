@@ -37,6 +37,7 @@ return [
     'export' => 'Eksportuoti',
     'export_html' => 'Sudėtinis žiniatinklio failas',
     'export_pdf' => 'PDF failas',
+    'export_pdf_file' => 'Eksportuoti PDF failą',
     'export_text' => 'Paprastas failo tekstas',
     'export_md' => 'Markdown File',
     'export_zip' => 'Portable ZIP',

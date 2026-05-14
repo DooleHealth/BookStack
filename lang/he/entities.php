@@ -37,6 +37,7 @@ return [
     'export' => 'ייצוא',
     'export_html' => 'דף אינטרנט',
     'export_pdf' => 'קובץ PDF',
+    'export_pdf_file' => 'ייצוא קובץ PDF',
     'export_text' => 'טקסט רגיל',
     'export_md' => 'קובץ Markdown',
     'export_zip' => 'Portable ZIP',

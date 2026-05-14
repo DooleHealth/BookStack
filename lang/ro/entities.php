@@ -37,6 +37,7 @@ return [
     'export' => 'Exportă',
     'export_html' => 'Fișier web inclus',
     'export_pdf' => 'Fișier PDF',
+    'export_pdf_file' => 'Exportare fișier PDF',
     'export_text' => 'Fișier text simplu',
     'export_md' => 'Fișier Markdown',
     'export_zip' => 'Portable ZIP',

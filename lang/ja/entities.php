@@ -37,6 +37,7 @@ return [
     'export' => 'エクスポート',
     'export_html' => 'Webページ',
     'export_pdf' => 'PDF',
+    'export_pdf_file' => 'PDFファイルをエクスポート',
     'export_text' => 'テキストファイル',
     'export_md' => 'Markdown',
     'export_zip' => 'ポータブルZIP',

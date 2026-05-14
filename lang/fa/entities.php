@@ -37,6 +37,7 @@ return [
     'export' => 'خروجی',
     'export_html' => 'فایل وب موجود است',
     'export_pdf' => 'فایل PDF',
+    'export_pdf_file' => 'خروجی فایل PDF',
     'export_text' => 'پرونده متنی ساده',
     'export_md' => 'راهنما مارک‌دون',
     'export_zip' => 'فایل فشرده‌ی زیپ',

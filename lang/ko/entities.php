@@ -37,6 +37,7 @@ return [
     'export' => '내보내기',
     'export_html' => '포함된 웹 파일',
     'export_pdf' => 'PDF 파일',
+    'export_pdf_file' => 'PDF 파일 내보내기',
     'export_text' => '일반 텍스트 파일',
     'export_md' => '마크다운 파일',
     'export_zip' => '컨텐츠 ZIP 파일',

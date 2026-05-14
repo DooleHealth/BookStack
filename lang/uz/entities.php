@@ -37,6 +37,7 @@ return [
     'export' => 'Eksport',
     'export_html' => 'HTML holatida',
     'export_pdf' => 'PDF holatida',
+    'export_pdf_file' => 'PDF faylini eksport qilish',
     'export_text' => 'Oddiy matn holatida',
     'export_md' => 'Markdown fayli holatida',
     'export_zip' => 'Portable ZIP',

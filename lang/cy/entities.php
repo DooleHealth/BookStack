@@ -37,6 +37,7 @@ return [
     'export' => 'Allforio',
     'export_html' => 'Ffeil Gwe wedi\'i Chynnwys',
     'export_pdf' => 'Ffeil PDF',
+    'export_pdf_file' => 'Allforio Ffeil PDF',
     'export_text' => 'Ffeil Testun Plaen',
     'export_md' => 'Ffeil Markdown',
     'export_zip' => 'ZIP cludadwy',

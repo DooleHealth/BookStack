@@ -37,6 +37,7 @@ return [
     'export' => 'Export',
     'export_html' => 'Contained Web File',
     'export_pdf' => 'PDF File',
+    'export_pdf_file' => 'PDF ফাইল রপ্তানি করুন',
     'export_text' => 'Plain Text File',
     'export_md' => 'Markdown File',
     'export_zip' => 'Portable ZIP',

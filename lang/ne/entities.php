@@ -37,6 +37,7 @@ return [
     'export' => 'निर्यात',
     'export_html' => 'समाविष्ट वेब फाइल',
     'export_pdf' => 'PDF फाइल',
+    'export_pdf_file' => 'PDF फाइल निर्यात गर्नुहोस्',
     'export_text' => 'साधारण टेक्स्ट फाइल',
     'export_md' => 'Markdown फाइल',
     'export_zip' => 'पोर्टेबल ZIP',
