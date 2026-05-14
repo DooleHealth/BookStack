@@ -6,6 +6,7 @@ use BookStack\Entities\Queries\BookQueries;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exports\ExportFormatter;
 use BookStack\Exports\Jobs\GenerateBookPdfJob;
+use BookStack\Exports\Models\PdfExport;
 use BookStack\Exports\ZipExports\ZipExportBuilder;
 use BookStack\Http\Controller;
 use BookStack\Permissions\Permission;
@@ -87,10 +88,21 @@ class BookExportController extends Controller
     public function pdfEmail(string $bookSlug)
     {
         try {
+            dd('a');
             $book = $this->queries->findVisibleBySlugOrFail($bookSlug);
             $user = user();
 
-            GenerateBookPdfJob::dispatch($book, $user, app()->getLocale());
+            $pdfExport = PdfExport::create([
+                'user_id' => $user->id,
+                'entity_type' => 'book',
+                'entity_id' => $book->id,
+                'entity_name' => $book->name,
+                'file_name' => $book->slug . '.pdf',
+                'status' => 'pending',
+                'expires_at' => now()->addDays(7),
+            ]);
+
+            GenerateBookPdfJob::dispatch($book, $user, app()->getLocale(), $pdfExport->id);
 
             $this->showSuccessNotification(trans('entities.export_pdf_generating', ['name' => $book->name]));
 

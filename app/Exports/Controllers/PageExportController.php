@@ -6,8 +6,8 @@ use BookStack\Entities\Queries\PageQueries;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exports\ExportFormatter;
-use BookStack\Exports\Jobs\GenerateBookPdfJob;
 use BookStack\Exports\Jobs\GeneratePagePdfJob;
+use BookStack\Exports\Models\PdfExport;
 use BookStack\Exports\ZipExports\ZipExportBuilder;
 use BookStack\Http\Controller;
 use BookStack\Permissions\Permission;
@@ -101,7 +101,17 @@ class PageExportController extends Controller
             $page = $this->queries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
             $user = user();
 
-            GeneratePagePdfJob::dispatch($page, $user, app()->getLocale());
+            $pdfExport = PdfExport::create([
+                'user_id' => $user->id,
+                'entity_type' => 'page',
+                'entity_id' => $page->id,
+                'entity_name' => $page->name,
+                'file_name' => $page->slug . '.pdf',
+                'status' => 'pending',
+                'expires_at' => now()->addDays(7),
+            ]);
+
+            GeneratePagePdfJob::dispatch($page, $user, app()->getLocale(), $pdfExport->id);
 
             $this->showSuccessNotification(trans('entities.export_pdf_generating', ['name' => $page->name]));
 

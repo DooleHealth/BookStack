@@ -225,6 +225,9 @@ Route::middleware(['auth', 'restrict-viewer'])->group(function () {
     Route::post('/import/{id}', [ExportControllers\ImportController::class, 'run']);
     Route::delete('/import/{id}', [ExportControllers\ImportController::class, 'delete']);
 
+    // PDF Exports listing
+    Route::get('/pdf-exports', [ExportControllers\PdfExportListController::class, 'index']);
+
     // Other Pages
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/home', [HomeController::class, 'index']);
