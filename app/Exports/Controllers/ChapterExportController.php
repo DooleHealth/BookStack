@@ -6,6 +6,7 @@ use BookStack\Entities\Queries\ChapterQueries;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exports\ExportFormatter;
 use BookStack\Exports\Jobs\GenerateChapterPdfJob;
+use BookStack\Exports\Models\PdfExport;
 use BookStack\Exports\ZipExports\ZipExportBuilder;
 use BookStack\Http\Controller;
 use BookStack\Permissions\Permission;
@@ -96,7 +97,17 @@ class ChapterExportController extends Controller
             $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
             $user = user();
 
-            GenerateChapterPdfJob::dispatch($chapter, $user, app()->getLocale());
+            $pdfExport = PdfExport::create([
+                'user_id' => $user->id,
+                'entity_type' => 'chapter',
+                'entity_id' => $chapter->id,
+                'entity_name' => $chapter->name,
+                'file_name' => $chapter->slug . '.pdf',
+                'status' => 'pending',
+                'expires_at' => now()->addDays(7),
+            ]);
+
+            GenerateChapterPdfJob::dispatch($chapter, $user, app()->getLocale(), $pdfExport->id);
 
             $this->showSuccessNotification(trans('entities.export_pdf_generating', ['name' => $chapter->name]));
 

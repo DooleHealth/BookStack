@@ -17,6 +17,15 @@
             </a>
         </li>
         <li>
+            <a href="{{ url('/pdf-exports') }}"
+               role="menuitem"
+               data-shortcut="pdf_exports_view"
+               class="icon-item">
+                @icon('file')
+                <div>{{ trans('entities.pdf_exports_title') }}</div>
+            </a>
+        </li>
+        <li>
             <a href="{{ $user->getProfileUrl() }}"
                role="menuitem"
                data-shortcut="profile_view"
