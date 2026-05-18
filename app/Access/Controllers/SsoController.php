@@ -109,7 +109,8 @@ class SsoController extends Controller
         $request->session()->regenerate();
 
         // Sanitizar redirect para evitar open redirect
-        $safePath = parse_url($redirect, PHP_URL_PATH) ?: '/';
+        $parsed = parse_url($redirect);
+        $safePath = ($parsed['path'] ?? '/') . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
 
         return redirect($safePath);
     }
