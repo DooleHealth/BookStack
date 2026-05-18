@@ -64,11 +64,13 @@
             @endif
         @endif
 
-        <hr class="primary-background">
+        @if(userCan('settings-manage'))
+            <hr class="primary-background">
 
-        <a href="{{ $book->getUrl('/versions') }}" class="icon-list-item">
-            <span>@icon('history')</span>
-            <span>{{ trans('entities.book_versions') }}</span>
-        </a>
+            <a href="{{ $book->getUrl('/versions') }}" class="icon-list-item">
+                <span>@icon('history')</span>
+                <span>{{ trans('entities.book_versions') }}</span>
+            </a>
+        @endif
     </div>
 </div>

@@ -72,14 +72,12 @@
             @if($pages->count() > 0)
                 <div class="entity-list">
                     @foreach($pages as $page)
-                        <div class="entity-list-item">
+                        <a href="{{ url($urlBase . '/page/' . urlencode($page->slug) . $embedQuery) }}" class="entity-list-item">
                             <span class="icon text-page">@icon('page')</span>
                             <div class="content">
-                                <a href="{{ url($urlBase . '/page/' . urlencode($page->slug) . $embedQuery) }}" class="entity-list-item-name text-page break-text">
-                                    {{ $page->name }}
-                                </a>
+                                <h4 class="entity-list-item-name text-page break-text">{{ $page->name }}</h4>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             @else
