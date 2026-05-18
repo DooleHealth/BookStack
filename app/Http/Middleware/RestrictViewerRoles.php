@@ -34,6 +34,11 @@ class RestrictViewerRoles
         // View pages
         '#^/books/[^/]+/page/[^/]+$#',
 
+        // View book versions (read-only snapshots)
+        '#^/books/[^/]+/versions/[^/]+$#',
+        '#^/books/[^/]+/versions/[^/]+/chapter/[^/]+$#',
+        '#^/books/[^/]+/versions/[^/]+/page/[^/]+$#',
+
         // Favourites
         '#^/favourites$#',
         '#^/favourites/add$#',
