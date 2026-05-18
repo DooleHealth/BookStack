@@ -78,7 +78,7 @@
             </div>
         @endif
 
-        <main class="content-wrap card" @if($embedMode) style="max-width: 100%; width: 100%;" @endif>
+        <main class="content-wrap card fill-width">
             <h1 class="break-text">{{ $page->name }}</h1>
 
             <div class="page-content" style="overflow-x: auto;">
