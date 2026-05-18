@@ -59,36 +59,32 @@
                         @endphp
                         @foreach($allChildren as $child)
                             @if($child instanceof \BookStack\Entities\Models\BookVersionChapter)
-                                <div class="entity-list-item">
+                                <a href="{{ url($urlBase . '/chapter/' . urlencode($child->slug) . $embedQuery) }}" class="entity-list-item">
                                     <span class="icon text-chapter">@icon('chapter')</span>
                                     <div class="content">
-                                        <a href="{{ url($urlBase . '/chapter/' . urlencode($child->slug) . $embedQuery) }}" class="entity-list-item-name text-chapter break-text">
-                                            {{ $child->name }}
-                                        </a>
+                                        <h4 class="entity-list-item-name text-chapter break-text">{{ $child->name }}</h4>
                                         @if($child->description)
                                             <div class="entity-list-item-description break-text">{{ Str::limit($child->description, 150) }}</div>
                                         @endif
                                         @if($child->pages->count() > 0)
                                             <div class="entity-list-item-children">
                                                 @foreach($child->pages as $page)
-                                                    <a href="{{ url($urlBase . '/page/' . urlencode($page->slug) . $embedQuery) }}" class="entity-list-item-small text-page">
+                                                    <span class="entity-list-item-small text-page">
                                                         @icon('page')
                                                         <span>{{ $page->name }}</span>
-                                                    </a>
+                                                    </span>
                                                 @endforeach
                                             </div>
                                         @endif
                                     </div>
-                                </div>
+                                </a>
                             @else
-                                <div class="entity-list-item">
+                                <a href="{{ url($urlBase . '/page/' . urlencode($child->slug) . $embedQuery) }}" class="entity-list-item">
                                     <span class="icon text-page">@icon('page')</span>
                                     <div class="content">
-                                        <a href="{{ url($urlBase . '/page/' . urlencode($child->slug) . $embedQuery) }}" class="entity-list-item-name text-page break-text">
-                                            {{ $child->name }}
-                                        </a>
+                                        <h4 class="entity-list-item-name text-page break-text">{{ $child->name }}</h4>
                                     </div>
-                                </div>
+                                </a>
                             @endif
                         @endforeach
                     </div>

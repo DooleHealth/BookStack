@@ -24,6 +24,8 @@ class BookVersionController extends Controller
     public function index(string $bookSlug)
     {
         $book = $this->bookQueries->findVisibleBySlugOrFail($bookSlug);
+        $this->checkPermission('settings-manage');
+
         $versions = $this->versionRepo->getVersionsForBook($book);
 
         $this->setPageTitle(trans('entities.book_versions') . ' - ' . $book->getShortName());
