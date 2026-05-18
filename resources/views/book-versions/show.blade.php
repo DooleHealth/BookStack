@@ -43,7 +43,7 @@
             </div>
         @endif
 
-        <main class="content-wrap card">
+        <main class="content-wrap card fill-width">
             <h1 class="break-text">{{ $version->book_name }}</h1>
             <div class="book-content">
                 @if($version->book_description_html)
@@ -59,30 +59,57 @@
                         @endphp
                         @foreach($allChildren as $child)
                             @if($child instanceof \BookStack\Entities\Models\BookVersionChapter)
-                                <a href="{{ url($urlBase . '/chapter/' . urlencode($child->slug) . $embedQuery) }}" class="entity-list-item">
+                                <a href="{{ url($urlBase . '/chapter/' . urlencode($child->slug) . $embedQuery) }}" class="chapter entity-list-item @if($child->pages->count() > 0) has-children @endif">
                                     <span class="icon text-chapter">@icon('chapter')</span>
                                     <div class="content">
-                                        <h4 class="entity-list-item-name text-chapter break-text">{{ $child->name }}</h4>
+                                        <h4 class="entity-list-item-name break-text">{{ $child->name }}</h4>
                                         @if($child->description)
-                                            <div class="entity-list-item-description break-text">{{ Str::limit($child->description, 150) }}</div>
-                                        @endif
-                                        @if($child->pages->count() > 0)
-                                            <div class="entity-list-item-children">
-                                                @foreach($child->pages as $page)
-                                                    <span class="entity-list-item-small text-page">
-                                                        @icon('page')
-                                                        <span>{{ $page->name }}</span>
-                                                    </span>
-                                                @endforeach
+                                            <div class="entity-item-snippet">
+                                                <p class="text-muted break-text">{{ Str::limit($child->description, 150) }}</p>
                                             </div>
                                         @endif
                                     </div>
                                 </a>
+                                @if($child->pages->count() > 0)
+                                    <div class="chapter chapter-expansion">
+                                        <span class="icon text-chapter">@icon('page')</span>
+                                        <div component="chapter-contents" class="content">
+                                            <button type="button"
+                                                    refs="chapter-contents@toggle"
+                                                    aria-expanded="false"
+                                                    class="text-muted chapter-contents-toggle">@icon('caret-right') <span>{{ trans_choice('entities.x_pages', $child->pages->count()) }}</span></button>
+                                            <div refs="chapter-contents@list" class="inset-list chapter-contents-list">
+                                                <div class="entity-list-item-children">
+                                                    <div class="entity-list">
+                                                        @foreach($child->pages as $page)
+                                                            <a href="{{ url($urlBase . '/page/' . urlencode($page->slug) . $embedQuery) }}" class="page entity-list-item">
+                                                                <span role="presentation" class="icon text-page">@icon('page')</span>
+                                                                <div class="content">
+                                                                    <h4 class="entity-list-item-name break-text">{{ $page->name }}</h4>
+                                                                    @if($page->html)
+                                                                        <div class="entity-item-snippet">
+                                                                            <p class="text-muted break-text">{{ Str::limit(strip_tags($page->html), 150) }}</p>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             @else
-                                <a href="{{ url($urlBase . '/page/' . urlencode($child->slug) . $embedQuery) }}" class="entity-list-item">
-                                    <span class="icon text-page">@icon('page')</span>
+                                <a href="{{ url($urlBase . '/page/' . urlencode($child->slug) . $embedQuery) }}" class="page entity-list-item">
+                                    <span role="presentation" class="icon text-page">@icon('page')</span>
                                     <div class="content">
-                                        <h4 class="entity-list-item-name text-page break-text">{{ $child->name }}</h4>
+                                        <h4 class="entity-list-item-name break-text">{{ $child->name }}</h4>
+                                        @if($child->html)
+                                            <div class="entity-item-snippet">
+                                                <p class="text-muted break-text">{{ Str::limit(strip_tags($child->html), 150) }}</p>
+                                            </div>
+                                        @endif
                                     </div>
                                 </a>
                             @endif

@@ -60,7 +60,7 @@
             </div>
         @endif
 
-        <main class="content-wrap card">
+        <main class="content-wrap card fill-width">
             <h1 class="break-text">{{ $chapter->name }}</h1>
 
             @if($chapter->description_html)
@@ -72,10 +72,15 @@
             @if($pages->count() > 0)
                 <div class="entity-list">
                     @foreach($pages as $page)
-                        <a href="{{ url($urlBase . '/page/' . urlencode($page->slug) . $embedQuery) }}" class="entity-list-item">
-                            <span class="icon text-page">@icon('page')</span>
+                        <a href="{{ url($urlBase . '/page/' . urlencode($page->slug) . $embedQuery) }}" class="page entity-list-item">
+                            <span role="presentation" class="icon text-page">@icon('page')</span>
                             <div class="content">
-                                <h4 class="entity-list-item-name text-page break-text">{{ $page->name }}</h4>
+                                <h4 class="entity-list-item-name break-text">{{ $page->name }}</h4>
+                                @if($page->html)
+                                    <div class="entity-item-snippet">
+                                        <p class="text-muted break-text">{{ Str::limit(strip_tags($page->html), 150) }}</p>
+                                    </div>
+                                @endif
                             </div>
                         </a>
                     @endforeach
