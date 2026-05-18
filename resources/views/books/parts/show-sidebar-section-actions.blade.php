@@ -63,5 +63,12 @@
                 @include('entities.export-menu', ['entity' => $book])
             @endif
         @endif
+
+        <hr class="primary-background">
+
+        <a href="{{ $book->getUrl('/versions') }}" class="icon-list-item">
+            <span>@icon('history')</span>
+            <span>{{ trans('entities.book_versions') }}</span>
+        </a>
     </div>
 </div>

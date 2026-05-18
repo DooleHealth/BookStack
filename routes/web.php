@@ -88,6 +88,15 @@ Route::middleware(['auth', 'restrict-viewer'])->group(function () {
     Route::get('/books/{bookSlug}/export/zip', [ExportControllers\BookExportController::class, 'zip']);
     Route::get('/books/{bookSlug}/export/plaintext', [ExportControllers\BookExportController::class, 'plainText']);
 
+    // Book Versions
+    Route::get('/books/{bookSlug}/versions', [EntityControllers\BookVersionController::class, 'index']);
+    Route::get('/books/{bookSlug}/versions/create', [EntityControllers\BookVersionController::class, 'create']);
+    Route::post('/books/{bookSlug}/versions', [EntityControllers\BookVersionController::class, 'store']);
+    Route::get('/books/{bookSlug}/versions/{versionSlug}', [EntityControllers\BookVersionController::class, 'show']);
+    Route::get('/books/{bookSlug}/versions/{versionSlug}/chapter/{chapterSlug}', [EntityControllers\BookVersionController::class, 'showChapter']);
+    Route::get('/books/{bookSlug}/versions/{versionSlug}/page/{pageSlug}', [EntityControllers\BookVersionController::class, 'showPage']);
+    Route::delete('/books/{bookSlug}/versions/{versionSlug}', [EntityControllers\BookVersionController::class, 'destroy']);
+
     // Pages
     Route::get('/books/{bookSlug}/create-page', [EntityControllers\PageController::class, 'create']);
     Route::post('/books/{bookSlug}/create-guest-page', [EntityControllers\PageController::class, 'createAsGuest']);
