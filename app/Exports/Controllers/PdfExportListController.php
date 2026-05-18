@@ -20,8 +20,6 @@ class PdfExportListController extends Controller
             return view('exports.pdf-exports', [
                 'exports' => $exports,
             ]);
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
-        }
+        } catch (\Throwable $th) {}
     }
 }

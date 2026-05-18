@@ -111,4 +111,12 @@ class Book extends Entity implements HasDescriptionInterface, HasCoverInterface,
     {
         return $this->belongsTo(SortRule::class);
     }
+
+    /**
+     * Get the tagged versions of this book.
+     */
+    public function versions(): HasMany
+    {
+        return $this->hasMany(BookVersion::class);
+    }
 }
