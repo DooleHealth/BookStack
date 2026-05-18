@@ -18,5 +18,9 @@
 </head>
 <body>
     @yield('content')
+
+    @if($cspNonce ?? false)
+        <script src="{{ versioned_asset('dist/app.js') }}" type="module" nonce="{{ $cspNonce }}"></script>
+    @endif
 </body>
 </html>
