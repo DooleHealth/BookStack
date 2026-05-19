@@ -2,6 +2,7 @@
 
 namespace BookStack\Entities\Models;
 
+use BookStack\Activity\Models\Loggable;
 use BookStack\App\Model;
 use BookStack\Users\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
-class BookVersion extends Model
+class BookVersion extends Model implements Loggable
 {
     protected $table = 'book_versions';
 
@@ -56,5 +57,10 @@ class BookVersion extends Model
         $base = '/books/' . urlencode($book->slug) . '/versions/' . urlencode($this->version_slug);
 
         return url($base . '/' . ltrim($path, '/'));
+    }
+
+    public function logDescriptor(): string
+    {
+        return "v{$this->version_label} ({$this->book_name})";
     }
 }

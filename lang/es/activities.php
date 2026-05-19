@@ -135,6 +135,12 @@ return [
     'sort_rule_delete' => 'regla de ordenación eliminada',
     'sort_rule_delete_notification' => 'Rol de ordenación borrada con éxito',
 
+    // Book Versions
+    'book_version_create' => 'versión de libro creada',
+    'book_version_create_notification' => 'Versión del libro creada correctamente',
+    'book_version_delete' => 'versión de libro eliminada',
+    'book_version_delete_notification' => 'Versión del libro eliminada correctamente',
+
     // Other
     'permissions_update'          => 'permisos actualizados',
 ];
