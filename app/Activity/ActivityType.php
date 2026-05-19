@@ -75,6 +75,9 @@ class ActivityType
     const SORT_RULE_UPDATE = 'sort_rule_update';
     const SORT_RULE_DELETE = 'sort_rule_delete';
 
+    const BOOK_VERSION_CREATE = 'book_version_create';
+    const BOOK_VERSION_DELETE = 'book_version_delete';
+
     /**
      * Get all the possible values.
      */

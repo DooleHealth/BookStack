@@ -2,10 +2,12 @@
 
 namespace BookStack\Entities\Controllers;
 
+use BookStack\Activity\ActivityType;
 use BookStack\Entities\Models\BookVersion;
 use BookStack\Entities\Queries\BookQueries;
 use BookStack\Entities\Repos\BookVersionRepo;
 use BookStack\Exceptions\NotFoundException;
+use BookStack\Facades\Activity;
 use BookStack\Http\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -75,6 +77,8 @@ class BookVersionController extends Controller
         ]);
 
         $version = $this->versionRepo->createVersion($book, $validated['version_label'], user());
+
+        Activity::add(ActivityType::BOOK_VERSION_CREATE, $version);
 
         return redirect($book->getUrl('/versions'))->with('success', trans('entities.book_version_created', ['label' => $version->version_label]));
     }
@@ -216,6 +220,8 @@ class BookVersionController extends Controller
         }
 
         $this->versionRepo->deleteVersion($version);
+
+        Activity::add(ActivityType::BOOK_VERSION_DELETE, $version);
 
         return redirect($book->getUrl('/versions'))
             ->with('success', trans('entities.book_version_deleted', ['label' => $version->version_label]));

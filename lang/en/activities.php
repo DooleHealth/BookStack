@@ -135,6 +135,12 @@ return [
     'sort_rule_delete' => 'deleted sort rule',
     'sort_rule_delete_notification' => 'Sort rule successfully deleted',
 
+    // Book Versions
+    'book_version_create' => 'created book version',
+    'book_version_create_notification' => 'Book version successfully created',
+    'book_version_delete' => 'deleted book version',
+    'book_version_delete_notification' => 'Book version successfully deleted',
+
     // Other
     'permissions_update'          => 'updated permissions',
 ];
