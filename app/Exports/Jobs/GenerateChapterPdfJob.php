@@ -34,7 +34,7 @@ class GenerateChapterPdfJob implements ShouldQueue
         protected string $locale = 'en',
         protected ?int $pdfExportId = null,
     ) {
-        $this->onQueue(env('SQS_PDF_QUEUE', env('SQS_QUEUE', 'default')));
+        $this->onQueue(config('queue.connections.sqs-fifo.queue', 'default'));
     }
 
     public function handle(ExportFormatter $exportFormatter): void
