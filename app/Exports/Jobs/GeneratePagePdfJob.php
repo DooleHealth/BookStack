@@ -69,14 +69,17 @@ class GeneratePagePdfJob implements ShouldQueue
             $downloadUrl = Storage::disk('exports')->temporaryUrl($path, now()->addDays(7));
 
             $this->markExport('completed', $path, now()->addDays(7));
-
-            $this->user->notifyNow(new PdfExportReadyNotification(
-                $this->page->name,
-                $downloadUrl,
-                $fileName,
-            ));
-
             Cache::put($doneKey, true, 1800);
+
+            try {
+                $this->user->notifyNow(new PdfExportReadyNotification(
+                    $this->page->name,
+                    $downloadUrl,
+                    $fileName,
+                ));
+            } catch (\Throwable $notifyEx) {
+                Log::warning("PDF export notification failed for page [{$this->page->id}]: " . $notifyEx->getMessage());
+            }
         } catch (\Throwable $e) {
             $this->markExport('failed', null, null, $e->getMessage());
             throw $e;
