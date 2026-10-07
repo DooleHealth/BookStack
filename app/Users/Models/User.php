@@ -140,11 +140,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Check if the user has a viewer-type role (Viewer, Viewer-Admin, Viewer-MS).
+     * Check if the user holds one of the read-only roles listed in
+     * config('app.restricted_viewer_roles'), which the restrict-viewer middleware limits.
      */
     public function isViewerRole(): bool
     {
-        return $this->roles->whereIn('display_name', ['Viewer', 'Viewer-Admin', 'Viewer-MS'])->isNotEmpty();
+        $restricted = array_filter(array_map(
+            'trim',
+            explode(',', (string) config('app.restricted_viewer_roles'))
+        ));
+
+        if (empty($restricted)) {
+            return false;
+        }
+
+        return $this->roles->whereIn('display_name', $restricted)->isNotEmpty();
     }
 
     /**

@@ -30,6 +30,7 @@
     <server name="MAIL_PORT" value="587"/>
     <server name="MAIL_VERIFY_SSL" value="true"/>
     <server name="LOG_CHANNEL" value="single"/>
+    <server name="RESTRICTED_VIEWER_ROLES" value=""/>
     <server name="AUTH_METHOD" value="standard"/>
     <server name="AUTH_AUTO_INITIATE" value="false"/>
     <server name="DISABLE_EXTERNAL_SERVICES" value="true"/>

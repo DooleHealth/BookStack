@@ -132,4 +132,9 @@ return [
 
     // HTTP errors
     'http_ssr_url_no_match' => 'The URL does not match the configured allowed SSR hosts',
+
+    // Embed-scoped sessions (Doole)
+    'embed_restricted' => 'Content not available here',
+    'embed_restricted_desc' => 'This manual can only be read from within the Doole application.',
+    'embed_restricted_return' => 'Back to the manual',
 ];

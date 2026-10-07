@@ -6,9 +6,10 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Middleware to restrict users with viewer-type roles (Viewer, Viewer-Admin, Viewer-MS)
- * so they can only view shelves, books, chapters, pages, and use favourites/search.
- * All other routes (editing, settings, user profiles, etc.) are blocked.
+ * Middleware to restrict users holding one of the read-only roles listed in
+ * config('app.restricted_viewer_roles') so they can only view shelves, books, chapters, pages,
+ * and use favourites/search. All other routes (editing, settings, user profiles, etc.) are
+ * blocked. An empty config value lifts the restriction, which is what the test suite does.
  */
 class RestrictViewerRoles
 {
