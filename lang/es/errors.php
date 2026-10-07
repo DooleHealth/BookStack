@@ -132,4 +132,9 @@ return [
 
     // HTTP errors
     'http_ssr_url_no_match' => 'La URL no coincide con los hosts SSR permitidos',
+
+    // Sesiones con alcance embebido (Doole)
+    'embed_restricted' => 'Contenido no disponible aquí',
+    'embed_restricted_desc' => 'Este manual solo puede consultarse desde la aplicación de Doole.',
+    'embed_restricted_return' => 'Volver al manual',
 ];

@@ -56,6 +56,11 @@ return [
     // and used by BookStack in URL generation.
     'url' => env('APP_URL', '') === 'http://bookstack.dev' ? '' : env('APP_URL', ''),
 
+    // Reject top-level browser navigations for SSO sessions opened in embed scope, so a copied
+    // URL cannot be re-opened on a new tab. Relies on the Sec-Fetch-Dest header: browsers that
+    // do not send it are let through, and remain contained by the embed path allow-list.
+    'embed_require_iframe' => env('EMBED_REQUIRE_IFRAME', true),
+
     // A list of hosts that BookStack can be iframed within.
     // Space separated if multiple. BookStack host domain is auto-inferred.
     'iframe_hosts' => env('ALLOWED_IFRAME_HOSTS', null),

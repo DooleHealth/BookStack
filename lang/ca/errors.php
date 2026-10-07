@@ -132,4 +132,9 @@ return [
 
     // HTTP errors
     'http_ssr_url_no_match' => 'L’URL no coincideix amb els amfitrions SSR configurats permesos.',
+
+    // Sessions amb abast incrustat (Doole)
+    'embed_restricted' => 'Contingut no disponible aquí',
+    'embed_restricted_desc' => 'Aquest manual només es pot consultar des de l\'aplicació de Doole.',
+    'embed_restricted_return' => 'Tornar al manual',
 ];

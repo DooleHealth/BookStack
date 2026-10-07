@@ -4,6 +4,7 @@ namespace BookStack\Access\Controllers;
 
 use BookStack\Entities\Tools\SlugGenerator;
 use BookStack\Http\Controller;
+use BookStack\Http\Middleware\RestrictEmbedSession;
 use BookStack\Translation\LocaleManager;
 use BookStack\Users\Models\Role;
 use BookStack\Users\Models\User;
@@ -45,6 +46,19 @@ class SsoController extends Controller
             abort(401, 'Invalid token signature.');
         } catch (\Exception $e) {
             abort(401, 'Invalid token.');
+        }
+
+        // Alcance "embed": el token pide que la sesión quede atada a una única versión de libro.
+        $embedScope = null;
+        if (($payload->scope ?? null) === 'embed') {
+            $bookSlug = trim((string) ($payload->book ?? ''));
+            $versionSlug = trim((string) ($payload->version ?? ''));
+
+            if (!preg_match('/^[A-Za-z0-9\-]+$/', $bookSlug) || !preg_match('/^[A-Za-z0-9\-]+$/', $versionSlug)) {
+                abort(400, 'An embed-scoped token requires a valid book and version slug.');
+            }
+
+            $embedScope = ['book' => $bookSlug, 'version' => $versionSlug];
         }
 
         // Prevenir replay: cada jti solo se puede usar una vez
@@ -107,6 +121,14 @@ class SsoController extends Controller
 
         // Regenerar sesión para prevenir session fixation
         $request->session()->regenerate();
+
+        // El alcance del embed vive en la sesión, no en la URL: quitar parámetros de la query
+        // o abrir la URL en otra pestaña no amplía lo que el usuario puede ver.
+        if ($embedScope) {
+            $request->session()->put(RestrictEmbedSession::SESSION_KEY, $embedScope);
+        } else {
+            $request->session()->forget(RestrictEmbedSession::SESSION_KEY);
+        }
 
         // Sanitizar redirect para evitar open redirect
         $parsed = parse_url($redirect);
