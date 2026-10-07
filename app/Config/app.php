@@ -56,6 +56,13 @@ return [
     // and used by BookStack in URL generation.
     'url' => env('APP_URL', '') === 'http://bookstack.dev' ? '' : env('APP_URL', ''),
 
+    // Roles, by display name, whose users the restrict-viewer middleware limits to read-only
+    // browsing. Comma separated; an empty value disables the restriction entirely (which is what
+    // the test suite does, since upstream's tests exercise the stock "Viewer" role as an ordinary
+    // one). Matching is by display name because Doole's "Viewer" role carries no system name,
+    // so renaming it in the settings UI would silently lift the restriction.
+    'restricted_viewer_roles' => env('RESTRICTED_VIEWER_ROLES', 'Viewer,Viewer-Admin,Viewer-MS'),
+
     // Reject top-level browser navigations for SSO sessions opened in embed scope, so a copied
     // URL cannot be re-opened on a new tab. Relies on the Sec-Fetch-Dest header: browsers that
     // do not send it are let through, and remain contained by the embed path allow-list.
