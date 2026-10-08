@@ -182,6 +182,28 @@ class EmbedSessionTest extends TestCase
             ->get($this->versionUrl($book, $version))->assertOk();
     }
 
+    public function test_a_walled_embed_session_can_log_out_and_sign_in_normally()
+    {
+        config(['app.embed_require_iframe' => true]);
+        [$book, $version] = $this->versionedBook();
+        $this->pinTo($book, $version);
+
+        // Somebody holding an embed session (an admin who opened a manual from the backoffice)
+        // opens docs.doole.io on a tab of its own, and hits the wall.
+        $resp = $this->withHeader('Sec-Fetch-Dest', 'document')->get('/');
+        $resp->assertStatus(403);
+
+        // /login is no use while authenticated: it bounces straight back into the wall.
+        $this->get('/login')->assertRedirect('/');
+
+        // So the wall has to offer a way out.
+        $this->withHtml($resp)->assertElementExists('form[action$="/logout"] button');
+
+        $this->post('/logout');
+        $this->assertFalse(auth()->check());
+        $this->get('/')->assertRedirect('/login');
+    }
+
     public function test_sessions_without_embed_scope_are_untouched()
     {
         [$book, $version] = $this->versionedBook();

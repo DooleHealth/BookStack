@@ -13,6 +13,12 @@ return [
     // Options: standard, ldap, saml2, oidc
     'method' => env('AUTH_METHOD', 'standard'),
 
+    // Allow users to reset their own password via email.
+    // Doole keeps this off: professionals reach docs.doole.io through the backoffice SSO and
+    // their accounts are created with a random password, so a reset would be the one way to
+    // obtain a direct login that bypasses the embed scope.
+    'password_reset_enabled' => env('PASSWORD_RESET_ENABLED', false),
+
     // Automatically initiate login via external auth system if it's the sole auth method.
     // Works with saml2 or oidc auth methods.
     'auto_initiate' => env('AUTH_AUTO_INITIATE', false),
