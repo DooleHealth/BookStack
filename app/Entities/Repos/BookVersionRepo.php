@@ -45,8 +45,13 @@ class BookVersionRepo
             $chapterIdMap[$chapter->id] = $versionChapter->id;
         }
 
-        // Snapshot pages
-        $pages = $book->pages()->orderBy('priority')->get();
+        // Snapshot pages. Drafts are not part of the book's contents: BookContents filters them
+        // out everywhere else, and without the same filter here every version ended up carrying
+        // the empty "New Page" draft that gets created the moment someone clicks to add a page.
+        $pages = $book->pages()
+            ->where('draft', '=', false)
+            ->orderBy('priority')
+            ->get();
 
         foreach ($pages as $page) {
             $versionPage = new BookVersionPage();
