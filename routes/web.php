@@ -383,13 +383,17 @@ Route::post('/oidc/logout', [AccessControllers\OidcController::class, 'logout'])
 Route::get('/register/invite/{token}', [AccessControllers\UserInviteController::class, 'showSetPassword'])->middleware('throttle:public');
 Route::post('/register/invite/{token}', [AccessControllers\UserInviteController::class, 'setPassword'])->middleware('throttle:public');
 
-// Password reset link request routes
-Route::get('/password/email', [AccessControllers\ForgotPasswordController::class, 'showLinkRequestForm']);
-Route::post('/password/email', [AccessControllers\ForgotPasswordController::class, 'sendResetLinkEmail'])->middleware('throttle:public');
+// Password reset routes. Gated by config('auth.password_reset_enabled'), off for Doole: hiding
+// the link on the login form would not be enough, these paths can be reached directly.
+Route::middleware('password-reset')->group(function () {
+    // Password reset link request routes
+    Route::get('/password/email', [AccessControllers\ForgotPasswordController::class, 'showLinkRequestForm']);
+    Route::post('/password/email', [AccessControllers\ForgotPasswordController::class, 'sendResetLinkEmail'])->middleware('throttle:public');
 
-// Password reset routes
-Route::get('/password/reset/{token}', [AccessControllers\ResetPasswordController::class, 'showResetForm']);
-Route::post('/password/reset', [AccessControllers\ResetPasswordController::class, 'reset'])->middleware('throttle:public');
+    // Password reset routes
+    Route::get('/password/reset/{token}', [AccessControllers\ResetPasswordController::class, 'showResetForm']);
+    Route::post('/password/reset', [AccessControllers\ResetPasswordController::class, 'reset'])->middleware('throttle:public');
+});
 
 // Help & Info routes
 Route::view('/help/tinymce', 'help.tinymce');

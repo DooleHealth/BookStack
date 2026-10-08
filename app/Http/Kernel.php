@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         'mfa-setup'      => \BookStack\Http\Middleware\AuthenticatedOrPendingMfa::class,
         'restrict-viewer' => \BookStack\Http\Middleware\RestrictViewerRoles::class,
         'restrict-embed' => \BookStack\Http\Middleware\RestrictEmbedSession::class,
+        'password-reset' => \BookStack\Http\Middleware\CheckPasswordResetEnabled::class,
     ];
 }

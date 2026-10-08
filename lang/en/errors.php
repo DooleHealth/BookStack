@@ -137,4 +137,5 @@ return [
     'embed_restricted' => 'Content not available here',
     'embed_restricted_desc' => 'This manual can only be read from within the Doole application.',
     'embed_restricted_return' => 'Back to the manual',
+    'embed_restricted_logout' => 'Log out and sign in with my account',
 ];

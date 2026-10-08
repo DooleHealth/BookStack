@@ -137,4 +137,5 @@ return [
     'embed_restricted' => 'Contenido no disponible aquí',
     'embed_restricted_desc' => 'Este manual solo puede consultarse desde la aplicación de Doole.',
     'embed_restricted_return' => 'Volver al manual',
+    'embed_restricted_logout' => 'Cerrar sesión y entrar con mi cuenta',
 ];
